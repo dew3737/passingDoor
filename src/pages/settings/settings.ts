@@ -1,7 +1,10 @@
+import { MemberProvider } from './../../providers/member/member';
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { TranslateService } from '@ngx-translate/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+
+import { Http } from '@angular/http';
+import 'rxjs/add/operator/map';
+import { Storage } from '@ionic/storage';
 
 import { Settings } from '../../providers/providers';
 
@@ -16,80 +19,66 @@ import { Settings } from '../../providers/providers';
   templateUrl: 'settings.html'
 })
 export class SettingsPage {
-  // Our local settings object
-  options: any;
-
-  settingsReady = false;
-
-  form: FormGroup;
-
-  profileSettings = {
-    page: 'profile',
-    pageTitleKey: 'SETTINGS_PAGE_PROFILE'
-  };
-
-  page: string = 'main';
-  pageTitleKey: string = 'SETTINGS_TITLE';
-  pageTitle: string;
-
-  subSettings: any = SettingsPage;
 
   constructor(public navCtrl: NavController,
     public settings: Settings,
-    public formBuilder: FormBuilder,
     public navParams: NavParams,
-    public translate: TranslateService) {
+    public http:Http, 
+    private storage: Storage,
+    private mem: MemberProvider) {
   }
 
-  _buildForm() {
-    let group: any = {
-      option1: [this.options.option1],
-      option2: [this.options.option2],
-      option3: [this.options.option3]
-    };
-
-    switch (this.page) {
-      case 'main':
-        break;
-      case 'profile':
-        group = {
-          option4: [this.options.option4]
-        };
-        break;
-    }
-    this.form = this.formBuilder.group(group);
-
-    // Watch the form for changes, and
-    this.form.valueChanges.subscribe((v) => {
-      this.settings.merge(this.form.value);
+  notice(){
+    this.navCtrl.push('NoticePage', {}, {
+      animate: true,
+      direction: 'forward'
     });
   }
 
-  ionViewDidLoad() {
-    // Build an empty form for the template to render
-    this.form = this.formBuilder.group({});
-  }
+  logout(){
 
-  ionViewWillEnter() {
-    // Build an empty form for the template to render
-    this.form = this.formBuilder.group({});
+    let logoutData = "key=dltmf&uid="+this.storage.get('member_id')+"&tokenid="+this.storage.get('tokenid');
 
-    this.page = this.navParams.get('page') || this.page;
-    this.pageTitleKey = this.navParams.get('pageTitleKey') || this.pageTitleKey;
+    this.mem.logout(logoutData).then(data => {
+        alert(data);
+        this.storage.clear();
+        this.navCtrl.setRoot('WelcomePage');
+    });
 
-    this.translate.get(this.pageTitleKey).subscribe((res) => {
-      this.pageTitle = res;
-    })
+    // let headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
+    //   let options = new RequestOptions({ headers: headers }); 
 
-    this.settings.load().then(() => {
-      this.settingsReady = true;
-      this.options = this.settings.allSettings;
+    //   this.storage.get('member_id').then(data => {
+    //     alert('member_id = '+data);
+    //     let member_id = data;
+      
+    //     let logoutData = "key=dltmf&uid="+member_id+"&tokenid="+this.storage.get('tokenid');
+    //     alert(logoutData);
+  
+    //     return new Promise((resolve, reject) => {
+    //       this.http.post('http://192.168.10.140:8080/lmtalk-manager/api/json/logout.php', logoutData, options)
+    //       //.toPromise()
+    //       //.then((response) =>{
+    //       .map( res => res.json())
+    //       .subscribe (res => {
+    //         this.storage.clear();
+    //         alert('로그아웃 되었습니다.');
+    //       }, (error) =>{
+    //         let errors = [];
+    //         errors.push(error);
+    //         reject(errors);
+    //       });
+    //     });
+    
+    //   });
+  } // logout END
 
-      this._buildForm();
+  howtouse(){
+    this.navCtrl.push('HowtousePage', {}, {
+      animate: true,
+      direction: 'forward'
     });
   }
 
-  ngOnChanges() {
-    console.log('Ng All Changes');
-  }
+  
 }

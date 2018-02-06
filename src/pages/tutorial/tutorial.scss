@@ -1,36 +1,33 @@
 page-tutorial {
-  .toolbar-background {
-    background: transparent;
-    border-color: transparent;
-  }
 
-  .slide-zoom {
-    height: 100%;
-  }
-
-  .slide-title {
-    margin-top: 2.8rem;
+  .content{
+    background: rgba(0, 0, 0, 0.8);
   }
 
   .slide-image {
-    max-height: 40%;
-    max-width: 60%;
-    margin: 36px 0;
+    max-height: 90%;
+    max-width: 100%;
   }
 
-  b {
-    font-weight: 500;
+  .footer{
+    background-color: black;
   }
 
-  p {
-    padding: 0 40px;
-    font-size: 14px;
-    line-height: 1.5;
-    color: #60646B;
+  .ion-col1{
+    text-align: left;
+  }
 
-    b {
-      color: #000000;
-    }
+  .item{
+    background-color: black;
+    color: white;
+  }
+  
+  .ion-col2{
+    text-align: right;
+  }
+
+  .label{
+    max-width: 100%;
   }
 
 }

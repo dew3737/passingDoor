@@ -1,9 +1,8 @@
+import { MemberProvider } from '../../providers/member/member';
 import { Component } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import { IonicPage, NavController, ToastController } from 'ionic-angular';
+import { IonicPage, NavController} from 'ionic-angular';
+import { Storage } from '@ionic/storage';
 
-import { User } from '../../providers/providers';
-import { MainPage } from '../pages';
 
 @IonicPage()
 @Component({
@@ -11,40 +10,109 @@ import { MainPage } from '../pages';
   templateUrl: 'login.html'
 })
 export class LoginPage {
-  // The account fields for the login form.
-  // If you're using the username field with or without email, make
-  // sure to add it to the type
-  account: { email: string, password: string } = {
-    email: 'test@example.com',
-    password: 'test'
+
+  members = [];
+  member = {
+    member_id: "", 
+    member_pw: ""
   };
 
-  // Our translated text strings
-  private loginErrorString: string;
+  reason = {
+    val: ''
+  };
 
-  constructor(public navCtrl: NavController,
-    public user: User,
-    public toastCtrl: ToastController,
-    public translateService: TranslateService) {
+  recieveData: {m_id: string, m_pw: string, force: string, result: {success: number, id: string, tokenid: string}};
 
-    this.translateService.get('LOGIN_ERROR').subscribe((value) => {
-      this.loginErrorString = value;
-    })
+  constructor(public navCtrl: NavController, public mem: MemberProvider, private storage: Storage) {
+
   }
 
-  // Attempt to login in through our User service
-  doLogin() {
-    this.user.login(this.account).subscribe((resp) => {
-      this.navCtrl.push(MainPage);
-    }, (err) => {
-      this.navCtrl.push(MainPage);
-      // Unable to log in
-      let toast = this.toastCtrl.create({
-        message: this.loginErrorString,
-        duration: 3000,
-        position: 'top'
-      });
-      toast.present();
+  login() {
+
+    if (this.member.member_id == ''){
+      this.reason.val = '아이디를 입력해주세요.';
+    } else if (this.member.member_pw == ''){
+      this.reason.val = '비밀번호를 입력해주세요.';
+    }
+
+    let loginData = "key=dltmf&force=1&memberId="+this.member.member_id+"&memberPw="+this.member.member_pw;
+    //let loginData = {key:'dltmf', force: '1', memberId: this.member.member_id, memberPw: this.member.member_pw};
+
+    this.mem.login(loginData).then(data => {
+      this.recieveData = JSON.parse(JSON.stringify(data));
+      alert('success : '+JSON.stringify(data));
+      
+
+      if (this.recieveData.result.success == 1){
+        this.storage.set('member_id', this.recieveData.m_id);
+        this.storage.set('tokenid', this.recieveData.result.tokenid);
+
+        this.navCtrl.pop();
+
+      } else if (this.recieveData.result.success == 10){
+        this.reason.val = '이미 로그인된 아이디입니다.';
+        //alert('이미 로그인된 아이디입니다.');
+      } else {
+        this.reason.val = '아이디 또는 비밀번호가 틀렸습니다.';
+        //alert('아이디 또는 비밀번호가 틀렸습니다.');
+      }
+    },
+    (error) => {
+        alert('error : '+JSON.stringify(error));
     });
   }
+
+
+  //   if (this.member.member_id == ''){
+  //     this.reason.val = '아이디를 입력해주세요.';
+  //   } else if (this.member.member_pw == ''){
+  //     this.reason.val = '비밀번호를 입력해주세요.';
+  //   } else {
+
+  //     let headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
+  //     let options = new RequestOptions({ headers: headers }); 
+
+  //     let loginData = "key=dltmf&force=1&memberId="+this.member.member_id+"&memberPw="+this.member.member_pw;
+
+  //     return new Promise((resolve, reject) => {
+  //       this.http.post('http://192.168.10.140:8080/lmtalk-manager/api/json/login.php', loginData, options)
+  //       //.toPromise()
+  //       //.then((response) =>{
+  //       .map( res => res.json())
+  //       .subscribe (res => {
+  //         alert(JSON.stringify(res));
+  //         if (res.result.success == '1'){
+  //           this.storage.set('member_id', res.m_id);
+  //           this.storage.set('tokenid', res.result.tokenid);
+
+  //           this.navCtrl.pop();
+
+  //         } else if (res.result.success == '10'){
+  //           this.reason.val = '이미 로그인된 아이디입니다.';
+  //           //alert('이미 로그인된 아이디입니다.');
+  //         } else {
+  //           this.reason.val = '아이디 또는 비밀번호가 틀렸습니다.';
+  //           //alert('아이디 또는 비밀번호가 틀렸습니다.');
+  //         }
+  //       //.map( res => res.json())
+  //       //.subscribe (res => {
+  //       //  alert("success:" +res.result.success);
+  //         //this.storage.set('member_id', res.member_id);
+  //       }, (error) =>{
+  //         let errors = [];
+  //         errors.push(error);
+  //         reject(errors);
+  //         //alert("failed: "+JSON.stringify(err));
+  //       });
+  //     });
+  //   } // else END
+  // } // login END
+
+  signup(){
+    this.navCtrl.push('SignupPage', {}, {
+      animate: true,
+      direction: 'forward'
+    });
+  }
+
 }

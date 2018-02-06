@@ -13,7 +13,7 @@ import { WelcomePage } from './welcome';
     TranslateModule.forChild()
   ],
   exports: [
-    WelcomePage
+    WelcomePage,
   ]
 })
 export class WelcomePageModule { }

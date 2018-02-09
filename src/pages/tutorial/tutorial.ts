@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, MenuController, NavController, Platform } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 import { Storage } from '@ionic/storage';
+import { MainPage } from '../../pages/pages';
 
 export interface Slide {
   image: string;
@@ -23,6 +24,7 @@ export class TutorialPage {
               translate: TranslateService, 
               public platform: Platform,
               private storage: Storage) {
+
     this.dir = platform.dir();
     translate.get(["TUTORIAL_SLIDE1_TITLE",
       "TUTORIAL_SLIDE1_DESCRIPTION",
@@ -55,24 +57,29 @@ export class TutorialPage {
     
     if (this.checked == true){
       this.storage.set('checked_date', checkDate);
-      this.navCtrl.setRoot('WelcomePage', {}, navOptions);
+      this.navCtrl.setRoot(MainPage, {}, navOptions);
     } else {
-      this.navCtrl.setRoot('WelcomePage', {}, navOptions);
+      alert('close');
+      this.navCtrl.setRoot(MainPage, {}, navOptions);
     }
-
-  }
+  } 
 
   ionViewWillEnter(){
     let todayDate = new Date().toISOString().slice(0,10);
 
     this.storage.get('checked_date').then( checkedDateData =>{
-      if (checkedDateData == todayDate){
-        this.navCtrl.setRoot('WelcomePage');
-      } else if(checkedDateData != todayDate){
+      if (checkedDateData && checkedDateData == todayDate){
+        let navOptions = {
+          animation: 'ios-transition'
+        };
+        this.navCtrl.setRoot(MainPage, {}, navOptions);
+      } else {
         // tutorial page 보여주기
       }
     });
   }
+
+
 
   onSlideChangeStart(slider) {
     this.showSkip = !slider.isEnd();

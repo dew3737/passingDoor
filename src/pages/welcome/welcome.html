@@ -7,24 +7,42 @@
         <span class="button-inner">키워드별 기출풀기</span>    
         <ion-icon name="arrow-forward"></ion-icon>
     </button>
-    <button class="button-size button-padding" ion-button block (click)="contents(name)">
+
+    <ion-item hidden>
+        <ion-input type="text" [(ngModel)]="page.val1" name="contents"></ion-input>
+    </ion-item>
+    <button class="button-size button-padding" ion-button block (click)="contents1()">
         <span class="button-inner">목차별 기출풀기</span>    
         <ion-icon name="arrow-forward"></ion-icon>
     </button>
-    <button class="button-size button-padding" ion-button block (click)="contents()">
+
+    <ion-item hidden>
+        <ion-input type="text" [(ngModel)]="page.val2" name="year"></ion-input>
+    </ion-item>
+    <button class="button-size button-padding" ion-button block (click)="contents2()">
         <span class="button-inner">년도별 기출풀기</span>    
         <ion-icon name="arrow-forward"></ion-icon>
     </button>
-    <button class="button-size button-padding" ion-button block (click)="contents()">
+
+    <ion-item hidden>
+        <ion-input type="text" [(ngModel)]="page.val3" name="year"></ion-input>
+    </ion-item>
+    <button class="button-size button-padding" ion-button block (click)="contents3()">
         <span class="button-inner">범위별 기출풀기</span>    
         <ion-icon name="arrow-forward"></ion-icon>
     </button>
+
     <button class="button-size button-padding" ion-button block (click)="everyday()">
         <span class="button-inner">매일 기출풀기</span>    
         <ion-icon name="arrow-forward"></ion-icon>
     </button>
+
     <br>
-    <button class="button-padding" ion-button large color="light" block (click)="pastPaper()">
+
+    <ion-item hidden>
+        <ion-input type="text" [(ngModel)]="page.val4" name="year"></ion-input>
+    </ion-item>
+    <button class="button-padding" ion-button large color="light" block (click)="contents4()">
         <span class="button-inner">족보로 공부하기</span>    
         <ion-icon name="arrow-forward"></ion-icon>
     </button>

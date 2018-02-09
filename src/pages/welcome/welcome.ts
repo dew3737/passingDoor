@@ -1,6 +1,6 @@
 import { LanguageProvider } from './../../providers/language/language';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, Platform, MenuController, ModalController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, Platform, MenuController, ModalController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
 /**
@@ -22,14 +22,22 @@ export class WelcomePage {
     view: 'false' 
   };
 
+  page = {
+    val1: 'contents',
+    val2: 'year',
+    val3: 'range',
+    val4: 'pastPaper'
+  };
+  // pageName1 = 'contents';
+  // pageName2 = 'year';
+
   constructor(
     public navCtrl: NavController, 
     private platform: Platform,
     private menuCtrl: MenuController,
     private modalCtrl: ModalController,
     private lang: LanguageProvider,
-    private storage: Storage,
-    private navParams : NavParams) {
+    private storage: Storage) {
 
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
@@ -64,33 +72,50 @@ export class WelcomePage {
         
   }
 
+  // 안됨..
+  // ionViewDidLeave(){
+  //   let navOptions = {
+  //     animation: 'ios-transition'
+  //   };
+  //   this.navCtrl.pop(navOptions);
+  // }
+
   // content button
   keyword(){
-    this.moveTo('KeywordPage');
+    this.moveTo('KeywordPage', {});
   }
 
-  contents(name: string){
-    this.moveTo('ContentsPage');
+  contents1(){
+    this.moveTo('ContentsPage', { contents: this.page.val1 });
+  }
+  contents2(){
+    this.moveTo('ContentsPage', { year: this.page.val2 });
+  }
+  contents3(){
+    this.moveTo('ContentsPage', { range: this.page.val3 });
+  }
+  contents4(){
+    this.moveTo('ContentsPage', { pastPaper: this.page.val4 });
   }
 
   // footer button
   notice(){
-    this.moveTo('NoticePage');
+    this.moveTo('NoticePage', {});
   }
 
   howtouse(){
-    this.moveTo('HowtousePage');
+    this.moveTo('HowtousePage', {});
   }
 
   login(){
-    this.moveTo('LoginPage');
+    this.moveTo('LoginPage', {});
   }
 
-  moveTo(pageName){
+  moveTo(pageName, data){
     let navOptions = {
       animation: 'ios-transition'
     };
-    this.navCtrl.push(pageName, {}, navOptions);
+    this.navCtrl.push(pageName, data, navOptions);
   }
 
 }

@@ -15,12 +15,32 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class NoticePage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, 
+              public navParams: NavParams) {
 
+    // this.platform.ready().then(() => {
+    //   if (this.navCtrl.canGoBack()){
+    //     let navOptions = {
+    //       animation: 'ios-transition'
+    //     };
+    //     this.navCtrl.pop(navOptions);
+    //   }
+    // });
+    
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad NoticePage');
+
+    // this.navBar.backButtonClick = () => {
+      
+    //   alert('back button clicked');
+    //   let navOptions = {
+    //     animation: 'ios-transition'
+    //   };
+    //   this.navCtrl.pop(navOptions);
+    // }
+
   }
 
 }

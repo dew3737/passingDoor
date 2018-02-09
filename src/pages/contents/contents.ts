@@ -15,9 +15,9 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class ContentsPage {
 
-  // page = {
-  //   name: ''
-  // }
+  page = {
+    name: ''
+  }
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
 

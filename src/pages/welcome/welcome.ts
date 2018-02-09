@@ -1,7 +1,7 @@
-import { MenuToggle } from 'ionic-angular/components/menu/menu-toggle';
+import { LanguageProvider } from './../../providers/language/language';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, Platform } from 'ionic-angular';
-import { MenuClose } from 'ionic-angular/components/menu/menu-close';
+import { IonicPage, NavController, Platform, MenuController, ModalController, NavParams } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
 
 /**
  * The Welcome Page is a splash page that quickly describes the app,
@@ -16,21 +16,30 @@ import { MenuClose } from 'ionic-angular/components/menu/menu-close';
 })
 export class WelcomePage {
 
-  title: string = "<br><br><br><br><center><h1>족보와 기출문제로<br>슬기로운 공부~~</h1></center>";
+  title = this.lang.mainTitle;
+
+  isViewEvent =  { 
+    view: 'false' 
+  };
 
   constructor(
     public navCtrl: NavController, 
-    private platform: Platform) {
+    private platform: Platform,
+    private menuCtrl: MenuController,
+    private modalCtrl: ModalController,
+    private lang: LanguageProvider,
+    private storage: Storage,
+    private navParams : NavParams) {
 
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
-        if (this.navCtrl.canGoBack()){
+        if (this.menuCtrl.isOpen()){
+          this.menuCtrl.close();
+        } else if (this.navCtrl.canGoBack()){
           let navOptions = {
             animation: 'ios-transition'
           };
           this.navCtrl.pop(navOptions);
-        } else if (this.navCtrl.first()) {
-          this.navCtrl.canSwipeBack();
         } else {
           alert('종료');
           this.platform.exitApp();
@@ -40,32 +49,48 @@ export class WelcomePage {
 
   }
 
-  keyword(){
-    this.navCtrl.push('KeywordPage', {}, {
-      animate: true,
-      direction: 'forward'
+  ionViewDidEnter(){
+    let todayDate = new Date().toISOString().slice(0,10);
+    let modal = this.modalCtrl.create('ModalPage');
+
+    this.storage.get('checked_date').then( checkedDateData =>{
+      if (checkedDateData == todayDate){
+        // 다시보지않기 체크한 날짜와 오늘 날짜가 같다면 viewEvent 실행하지 않음
+      } else if(checkedDateData != todayDate && this.isViewEvent.view == 'false'){
+        modal.present();
+        this.isViewEvent.view = 'true';
+      }
     });
+        
   }
 
+  // content button
+  keyword(){
+    this.moveTo('KeywordPage');
+  }
+
+  contents(name: string){
+    this.moveTo('ContentsPage');
+  }
+
+  // footer button
   notice(){
-    this.navCtrl.push('NoticePage', {}, {
-      animate: true,
-      direction: 'forward'
-    });
+    this.moveTo('NoticePage');
   }
 
   howtouse(){
-    this.navCtrl.push('HowtousePage', {}, {
-      animate: true,
-      direction: 'forward'
-    });
+    this.moveTo('HowtousePage');
   }
 
   login(){
-    this.navCtrl.push('LoginPage', {}, {
-      animate: true,
-      direction: 'forward'
-    });
+    this.moveTo('LoginPage');
+  }
+
+  moveTo(pageName){
+    let navOptions = {
+      animation: 'ios-transition'
+    };
+    this.navCtrl.push(pageName, {}, navOptions);
   }
 
 }

@@ -60,7 +60,8 @@
       "cordova-sqlite-storage": {}
     },
     "platforms": [
-      "ios"
+      "ios",
+      "android"
     ]
   }
 }

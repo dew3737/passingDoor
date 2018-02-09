@@ -1,25 +1,9 @@
 <!--
-  Generated template for the KeywordPage page.
+  Generated template for the KeywordResultPage page.
 
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
-
-<ion-header>
-  <ion-buttons start>
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
-  </ion-buttons>
-
-  <ion-buttons end>
-    <button ion-button>
-      <ion-icon name="grid"></ion-icon>
-    </button>
-    <img alt="logo" width="30" height="30" src="assets/img/hi.PNG" > 
-  </ion-buttons>
-</ion-header>
 -->
-
 <ion-header>
 
   <ion-toolbar>
@@ -31,19 +15,8 @@
         </button>
       </ion-col>
 
-      <ion-col col-4>
+      <ion-col col-8>
         <ion-title>합격문</ion-title>
-      </ion-col>
-
-      <ion-col col-4>
-        <ion-buttons end>
-          <button ion-button default>
-            <ion-icon name="apps"></ion-icon>
-          </button>
-          <button ion-button default (click)="memberInfo()">
-            <ion-icon name="contact"></ion-icon>
-          </button>
-        </ion-buttons>
       </ion-col>
 
     </ion-row>
@@ -52,14 +25,6 @@
 </ion-header>
 
 <ion-content padding>
-
-  <ion-item>
-    <ion-label>id : {{ loginInfo.user_id }}</ion-label>
-  </ion-item>
-
-  <ion-item>
-    <ion-label>token id : {{ loginInfo.token_id }}</ion-label>
-  </ion-item>
 
   <ion-grid>
     <ion-row class="search">
@@ -84,7 +49,5 @@
         <ion-col style="text-align: center"><button ion-button default (click)="video()"><ion-icon name="easel"></ion-icon>동영상</button></ion-col>
     </ion-row>
   </ion-grid>
-
-  <div [innerHTML]="test"></div>
 
 </ion-content>

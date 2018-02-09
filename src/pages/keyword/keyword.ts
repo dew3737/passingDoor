@@ -16,6 +16,8 @@ import { Storage } from '@ionic/storage';
 })
 export class KeywordPage {
 
+  test: string = "<br><h3>기출풀기<br><br>1. (민법) 부동산물권변동<br>2. (민법)유치권</h3>";
+
   loginInfo = {
     user_id: '',
     token_id: ''
@@ -43,11 +45,13 @@ export class KeywordPage {
         this.loginInfo.user_id = '게스트입니다.';
       }
     })
-    // if (memberId){
-    //   this.login.val = memberId + '님 환영합니다.';
-    // } else {
-    //   this.login.val = '게스트입니다.';
-    // }
   } //ionViewDidLoad END
+
+  searchKeyword(){
+    let navOptions = {
+      animation: 'ios-transition'
+    };
+    this.navCtrl.push('KeywordResultPage', {}, navOptions);
+  }
 
 }

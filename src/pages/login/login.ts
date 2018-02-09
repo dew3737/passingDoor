@@ -109,10 +109,10 @@ export class LoginPage {
   // } // login END
 
   signup(){
-    this.navCtrl.push('SignupPage', {}, {
-      animate: true,
-      direction: 'forward'
-    });
+    let navOptions = {
+      animation: 'ios-transition'
+    };
+    this.navCtrl.push('SignupPage', {}, navOptions);
   }
 
 }

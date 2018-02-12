@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { IonicPage, NavController, NavParams, Navbar } from 'ionic-angular';
 
 /**
  * Generated class for the ContentsPage page.
@@ -15,13 +15,15 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class ContentsPage {
 
+  @ViewChild(Navbar) navbar: Navbar;
+
   title = {
     val: ''
   };
 
   subject = {
     title1: '부동산학개론',
-    title2: '민법 및 민사특별법',
+    title2: '민법 및 민사특별법'
   };
 
   contents = this.navParams.get('contents');
@@ -46,13 +48,21 @@ export class ContentsPage {
     } else if (this.pastPaper){
       this.title.val = '공부하기';
     }
+
+    this.navbar.backButtonClick = (e:UIEvent) => {
+      
+      let navOptions = {
+        animation: 'ios-transition'
+      };
+      this.navCtrl.pop(navOptions);
+    }
+
   }
 
   budongsan(){
     if (this.contents){
       this.moveTo('ContentsPaperPage', { subTitle1: this.subject.title1 });
     } else if (this.year){
-      // this.moveTo('YearPaperPage', {});
       this.moveTo('YearPaperPage', { subTitle1: this.subject.title1 });
     } else if (this.range){
       this.moveTo('RangePaperPage', {});
@@ -63,9 +73,8 @@ export class ContentsPage {
 
   minbeop(){
     if (this.contents){
-      this.moveTo('ContentsPaperPage', { subTitle1: this.subject.title1 });
+      this.moveTo('ContentsPaperPage', { subTitle2: this.subject.title2 });
     } else if (this.year){
-      // this.moveTo('YearPaperPage', {});
       this.moveTo('YearPaperPage', { subTitle2: this.subject.title2 });
     } else if (this.range){
       this.moveTo('RangePaperPage', {});

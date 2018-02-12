@@ -1,6 +1,6 @@
 import { MemberProvider } from '../../providers/member/member';
-import { Component } from '@angular/core';
-import { IonicPage, NavController} from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { IonicPage, NavController, Navbar} from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
 
@@ -10,6 +10,8 @@ import { Storage } from '@ionic/storage';
   templateUrl: 'login.html'
 })
 export class LoginPage {
+
+  @ViewChild(Navbar) navbar: Navbar;
 
   members = [];
   member = {
@@ -113,6 +115,17 @@ export class LoginPage {
       animation: 'ios-transition'
     };
     this.navCtrl.push('SignupPage', {}, navOptions);
+  }
+
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad NoticePage');
+
+    this.navbar.backButtonClick = (e:UIEvent) => {
+      let navOptions = {
+        animation: 'ios-transition'
+      };
+      this.navCtrl.pop(navOptions);
+    }
   }
 
 }

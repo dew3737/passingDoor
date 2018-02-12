@@ -59,27 +59,9 @@ export class TutorialPage {
       this.storage.set('checked_date', checkDate);
       this.navCtrl.setRoot(MainPage, {}, navOptions);
     } else {
-      alert('close');
       this.navCtrl.setRoot(MainPage, {}, navOptions);
     }
   } 
-
-  ionViewWillEnter(){
-    let todayDate = new Date().toISOString().slice(0,10);
-
-    this.storage.get('checked_date').then( checkedDateData =>{
-      if (checkedDateData && checkedDateData == todayDate){
-        let navOptions = {
-          animation: 'ios-transition'
-        };
-        this.navCtrl.setRoot(MainPage, {}, navOptions);
-      } else {
-        // tutorial page 보여주기
-      }
-    });
-  }
-
-
 
   onSlideChangeStart(slider) {
     this.showSkip = !slider.isEnd();

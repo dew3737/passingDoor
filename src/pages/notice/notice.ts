@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { IonicPage, NavController, NavParams, Navbar } from 'ionic-angular';
 
 /**
  * Generated class for the NoticePage page.
@@ -15,32 +15,20 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class NoticePage {
 
-  constructor(public navCtrl: NavController, 
-              public navParams: NavParams) {
+  @ViewChild(Navbar) navbar: Navbar;
 
-    // this.platform.ready().then(() => {
-    //   if (this.navCtrl.canGoBack()){
-    //     let navOptions = {
-    //       animation: 'ios-transition'
-    //     };
-    //     this.navCtrl.pop(navOptions);
-    //   }
-    // });
-    
+  constructor(public navCtrl: NavController, public navParams: NavParams) {    
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad NoticePage');
 
-    // this.navBar.backButtonClick = () => {
-      
-    //   alert('back button clicked');
-    //   let navOptions = {
-    //     animation: 'ios-transition'
-    //   };
-    //   this.navCtrl.pop(navOptions);
-    // }
-
+    this.navbar.backButtonClick = (e:UIEvent) => {
+      let navOptions = {
+        animation: 'ios-transition'
+      };
+      this.navCtrl.pop(navOptions);
+    }
   }
 
 }

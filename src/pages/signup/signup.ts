@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { IonicPage, NavController, NavParams, Navbar } from 'ionic-angular';
 
 /**
  * Generated class for the SignupPage page.
@@ -14,6 +14,8 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'signup.html',
 })
 export class SignupPage {
+
+  @ViewChild(Navbar) navbar: Navbar;
   
   member = {
     member_id: "",
@@ -28,6 +30,13 @@ export class SignupPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad SignupPage');
+
+    this.navbar.backButtonClick = (e:UIEvent) => {
+      let navOptions = {
+        animation: 'ios-transition'
+      };
+      this.navCtrl.pop(navOptions);
+    }
   }
 
 }

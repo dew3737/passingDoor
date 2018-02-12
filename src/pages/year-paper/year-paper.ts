@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { IonicPage, NavController, NavParams, Navbar } from 'ionic-angular';
 
 /**
  * Generated class for the YearPaperPage page.
@@ -14,6 +14,8 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'year-paper.html',
 })
 export class YearPaperPage {
+
+  @ViewChild(Navbar) navbar: Navbar;
 
   title = {
     val: ''
@@ -36,6 +38,14 @@ export class YearPaperPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad YearPaperPage');
+
+    this.navbar.backButtonClick = (e:UIEvent) => {
+      let navOptions = {
+        animation: 'ios-transition'
+      };
+      this.navCtrl.pop(navOptions);
+    }
+
     if (this.budongsan){
       this.title.val = this.budongsan;
     } else if (this.minbeop){

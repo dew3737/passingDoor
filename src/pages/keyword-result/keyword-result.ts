@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { IonicPage, NavController, NavParams, Navbar } from 'ionic-angular';
+import { MinbeopProvider } from '../../providers/minbeop/minbeop';
 
 /**
  * Generated class for the KeywordResultPage page.
@@ -15,11 +16,36 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class KeywordResultPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  @ViewChild(Navbar) navbar: Navbar;
+
+  minbeop = [];
+
+  constructor(public navCtrl: NavController, 
+              public navParams: NavParams,
+              private minbeopPv: MinbeopProvider) {
+
+    this.minbeopPv.getDatabaseState().subscribe(rdy => {
+      if (rdy) {
+        this.loadMinbeopData();
+      }
+    });
+  }
+
+  loadMinbeopData(){
+    this.minbeopPv.getAllMinbeop().then(data => {
+      this.minbeop = data;
+      });
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad KeywordResultPage');
+
+    this.navbar.backButtonClick = (e:UIEvent) => {
+      let navOptions = {
+        animation: 'ios-transition'
+      };
+      this.navCtrl.pop(navOptions);
+    }
   }
 
 }

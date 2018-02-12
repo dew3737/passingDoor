@@ -54,7 +54,6 @@ export class WelcomePage {
         }
       });
     });
-
   }
 
   ionViewDidEnter(){
@@ -71,14 +70,6 @@ export class WelcomePage {
     });
         
   }
-
-  // 안됨..
-  // ionViewDidLeave(){
-  //   let navOptions = {
-  //     animation: 'ios-transition'
-  //   };
-  //   this.navCtrl.pop(navOptions);
-  // }
 
   // content button
   keyword(){

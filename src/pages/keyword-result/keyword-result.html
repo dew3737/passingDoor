@@ -50,4 +50,30 @@
     </ion-row>
   </ion-grid>
 
+  <br>
+
+  [기출풀기]
+
+  <ion-list>
+
+    <button class="button-size button-padding" ion-button block (click)="wholeSolve()">
+        <span class="button-inner">기출문제 전체 풀기</span>    
+        <ion-icon name="arrow-forward"></ion-icon>
+    </button>
+
+    <button class="button-size button-padding" ion-button block (click)="learn()">
+        <span class="button-inner">학습하기</span>    
+        <ion-icon name="arrow-forward"></ion-icon>
+    </button>
+
+    <ion-item *ngFor="let min of minbeop">
+
+      <button class="button-size button-padding" ion-button block (click)="solve()">
+          <span class="button-inner">20{{ min.year }}년 {{min.times}}회 {{min.req}}번</span>    
+          <ion-icon name="arrow-forward"></ion-icon>
+      </button>
+
+    </ion-item>
+  </ion-list>
+
 </ion-content>

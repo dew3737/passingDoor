@@ -21,6 +21,7 @@ import { HttpModule } from '@angular/http';
 import { SQLitePorter } from '@ionic-native/sqlite-porter';
 import { SQLite } from '@ionic-native/sqlite';
 import { LanguageProvider } from '../providers/language/language';
+import { MinbeopProvider } from '../providers/minbeop/minbeop';
 
 // The translate loader needs to know where to load i18n files
 // in Ionic's static asset pipeline.
@@ -79,7 +80,8 @@ export function provideSettings(storage: Storage) {
     // Keep this to enable Ionic's runtime error handling during development
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     MemberProvider,
-    LanguageProvider
+    LanguageProvider,
+    MinbeopProvider
   ]
 })
 export class AppModule { }

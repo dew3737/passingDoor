@@ -65,7 +65,7 @@
     <ion-row class="search">
         <ion-col col-10 class="searchbar">
             <ion-searchbar
-              [(ngModel)]="myInput"
+              [(ngModel)]="myInput.keyword"
               [showCancelButton]="shouldShowCancel"
               (ionInput)="onInput($event)"
               (ionCancel)="onCancel($event)"
@@ -86,5 +86,11 @@
   </ion-grid>
 
   <div [innerHTML]="test"></div>
+
+  <ion-list>
+    <ion-item *ngFor="let subTitle of subTitles">
+      {{ subTitle }}
+    </ion-item>
+  </ion-list> 
 
 </ion-content>

@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { IonicPage, NavController, NavParams, Navbar } from 'ionic-angular';
 
 /**
  * Generated class for the ContentsPaperPage page.
@@ -15,6 +15,8 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class ContentsPaperPage {
 
+  @ViewChild(Navbar) navbar: Navbar;
+
   title = {
     val: ''
   };
@@ -27,6 +29,14 @@ export class ContentsPaperPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ContentsPaperPage');
+
+    this.navbar.backButtonClick = (e:UIEvent) => {
+      let navOptions = {
+        animation: 'ios-transition'
+      };
+      this.navCtrl.pop(navOptions);
+    }
+
     if (this.budongsan){
       this.title.val = this.budongsan;
     } else if (this.minbeop){

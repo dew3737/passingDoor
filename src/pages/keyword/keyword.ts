@@ -19,8 +19,6 @@ export class KeywordPage {
 
   test: string = "<br><h3>기출풀기<br><br>1. (민법) 부동산물권변동<br>2. (민법)유치권</h3>";
 
-  subTitles = {};
-
   myInput = {};
 
   loginInfo = {
@@ -33,9 +31,6 @@ export class KeywordPage {
     public navParams: NavParams, 
     private storage: Storage,
     private minbeopPv: MinbeopProvider) {
-
-      //database providew 연결
-
   }
 
   ionViewDidLoad() {
@@ -56,15 +51,18 @@ export class KeywordPage {
   } //ionViewDidLoad END
 
   searchKeyword(){
-    this.minbeopPv.searchMinbeop(this.myInput['keyword']).then(keywordData => {
-      alert('get:'+keywordData);
-      let navOptions = {
-        animation: 'ios-transition'
-      };
-      this.navCtrl.push('KeywordResultPage', { getSearchData: keywordData}, navOptions);
-    });
-  }
-
-  //
+    let keyword = this.myInput['keyword'];
+    
+    if (keyword === undefined || keyword == ''){
+      alert('keyword를 입력해주세요');
+    } else {
+      this.minbeopPv.searchMinbeop(keyword).then(keywordData => {
+        let navOptions = {
+          animation: 'ios-transition'
+        };
+        this.navCtrl.push('KeywordResultPage', { getSearchData: keywordData, sKeyword: keyword }, navOptions);
+      });
+    }
+  } // searchKeyword END
 
 }

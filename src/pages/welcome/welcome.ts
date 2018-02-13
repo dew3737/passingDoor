@@ -1,6 +1,6 @@
 import { LanguageProvider } from './../../providers/language/language';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, Platform, MenuController, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, Platform, MenuController, ModalController, AlertController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
 /**
@@ -37,7 +37,8 @@ export class WelcomePage {
     private menuCtrl: MenuController,
     private modalCtrl: ModalController,
     private lang: LanguageProvider,
-    private storage: Storage) {
+    private storage: Storage,
+    private aletCtrl: AlertController) {
 
     this.platform.ready().then(() => {
       this.platform.registerBackButtonAction(() => {
@@ -49,12 +50,24 @@ export class WelcomePage {
           };
           this.navCtrl.pop(navOptions);
         } else {
+          // let alert = this.aletCtrl.create({
+          //   title: '알림',
+          //   message: '합격문 앱을 종료하시겠습니까?',
+          //   buttons: [{
+          //     text: '취소',
+          //     role: 'cancel'
+          //   }, {
+          //     text: '확인',
+          //     handler: () => { this.platform.exitApp(); }
+          //   }]
+          // })
+          // alert.present();
           alert('종료');
           this.platform.exitApp();
         }
       });
     });
-  }
+  } //constructor END
 
   ionViewDidEnter(){
     let todayDate = new Date().toISOString().slice(0,10);

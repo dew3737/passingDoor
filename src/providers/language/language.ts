@@ -10,7 +10,7 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class LanguageProvider {
 
-  mainTitle: string = '<br><br><br><center><h1>족보와 기출문제로<br>슬기로운 공부~~</h1></center>';
+  mainTitle: string = '<br><br><br><br><center><h1>족보와 기출문제로<br>슬기로운 공부~~</h1></center>';
 
   constructor(public http: HttpClient) {
     console.log('Hello LanguageProvider Provider');

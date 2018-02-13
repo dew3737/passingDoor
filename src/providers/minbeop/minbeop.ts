@@ -48,11 +48,9 @@ export class MinbeopProvider {
           .then(data => {
             this.databaseReady.next(true);
             this.storage.set('database_filled', true);
-            alert('성공');
           })
           .catch(e => {
             console.error(e);
-            alert('error');
           });
       });
   } // init END
@@ -89,19 +87,48 @@ export class MinbeopProvider {
   }
 
   searchMinbeop(keyword){
-    let inputData = keyword;
+    let searchData = [keyword]; 
 
     return new Promise ((resolve, reject) => {
-      let sql = "SELECT * FROM minbeop WHERE minbeop MATCH keyword COMPANY LIMIT 5";
-      this.database.executeSql(sql, inputData).then( (data) => {
-        resolve(data);
-        alert('성공');
+      let sql = "SELECT year, times, req, m_key FROM minbeop WHERE content LIKE '%'||?||'%' AND obj_item = '0' LIMIT 5"; // ||->concat
+      this.database.executeSql(sql,searchData).then( (data) => {
+      let getSearchData = [];
+      if (data.rows.length > 0) {
+        for (var i = 0; i < data.rows.length; i++) {
+          getSearchData.push ({ year: data.rows.item(i).year, 
+                                times: data.rows.item(i).times, 
+                                req: data.rows.item(i).req,
+                                m_key: data.rows.item(i).m_key});
+        }
+      }
+        resolve(getSearchData);
       }, (error) => {
         reject(error);
-        alert('실패');
       });
     });
   }
+
+  getExam(m_key){
+    let examData = [m_key];
+
+    return new Promise ((resolve, reject) => {
+      let sql = "SELECT year, times, req, content FROM minbeop WHERE m_key LIKE ?||'%'";
+      this.database.executeSql(sql,examData).then( (data) => {
+        let getExamData = [];
+        if (data.rows.length > 0) {
+          for (var i = 0; i < data.rows.length; i++) {
+            getExamData.push ({ year: data.rows.item(i).year, 
+                                times: data.rows.item(i).times,
+                                req: data.rows.item(i).req,
+                                content: data.rows.item(i).content });
+          }
+        }
+          resolve(getExamData);
+        }, (error) => { alert('실패'+JSON.stringify(error));
+          reject(error);
+        });
+      });
+    }
  
   getDatabaseState() {
     return this.databaseReady.asObservable();

@@ -1,5 +1,5 @@
-import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, Navbar } from 'ionic-angular';
+import { Component } from '@angular/core';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { MinbeopProvider } from '../../providers/minbeop/minbeop';
 
 /**
@@ -16,36 +16,42 @@ import { MinbeopProvider } from '../../providers/minbeop/minbeop';
 })
 export class KeywordResultPage {
 
-  @ViewChild(Navbar) navbar: Navbar;
+  title = {
+    val: ''
+  };
 
   minbeop = [];
+
+  searchData = this.navParams.get('getSearchData');
+  sKeyword = this.navParams.get('sKeyword');
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
               private minbeopPv: MinbeopProvider) {
-
-    this.minbeopPv.getDatabaseState().subscribe(rdy => {
-      if (rdy) {
-        this.loadMinbeopData();
-      }
-    });
-  }
-
-  loadMinbeopData(){
-    this.minbeopPv.getAllMinbeop().then(data => {
-      this.minbeop = data;
-      });
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad KeywordResultPage');
 
-    this.navbar.backButtonClick = (e:UIEvent) => {
+    // title keyword
+    this.title.val = this.sKeyword;
+    // this.title.val = '법';
+
+    //input search data
+    this.minbeop = this.searchData;
+  }
+
+  solve(selected_id){
+    // alert(JSON.stringify(selected_id.m_key));
+    // let todayDate = new Date().toISOString().slice(0,10);
+    let m_key = JSON.stringify(selected_id.m_key).slice(0,-1);
+
+    this.minbeopPv.getExam(m_key).then(m_keyData => {
       let navOptions = {
         animation: 'ios-transition'
-      };
-      this.navCtrl.pop(navOptions);
-    }
+      }; 
+      this.navCtrl.push('SolvePage', { getExamData: m_keyData}, navOptions);
+    });
   }
 
 }

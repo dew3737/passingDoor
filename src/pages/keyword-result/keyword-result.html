@@ -53,7 +53,9 @@
   <br>
 
   [기출풀기]
-
+  <br><br>
+  <ion-title>{{title.val}}</ion-title>
+  <br>
   <ion-list>
 
     <button class="button-size button-padding" ion-button block (click)="wholeSolve()">
@@ -66,13 +68,8 @@
         <ion-icon name="arrow-forward"></ion-icon>
     </button>
 
-    <ion-item *ngFor="let min of minbeop">
-
-      <button class="button-size button-padding" ion-button block (click)="solve()">
-          <span class="button-inner">20{{ min.year }}년 {{min.times}}회 {{min.req}}번</span>    
-          <ion-icon name="arrow-forward"></ion-icon>
-      </button>
-
+    <ion-item *ngFor="let min of minbeop" (click)="solve(min)">
+      <span>20{{ min.year }}년 {{min.times}}회 {{min.req}}번</span>
     </ion-item>
   </ion-list>
 

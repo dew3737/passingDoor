@@ -1,3 +1,4 @@
+import { AutocompleteDataProvider } from './../../providers/autocomplete-data/autocomplete-data';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
@@ -21,37 +22,50 @@ export class KeywordPage {
 
   myInput = {};
 
-  loginInfo = {
-    user_id: '',
-    token_id: ''
-  };
+  searchResult;
+  
+  // loginInfo = {
+  //   user_id: '',
+  //   token_id: ''
+  // };
 
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams, 
     private storage: Storage,
-    private minbeopPv: MinbeopProvider) {
+    private minbeopPv: MinbeopProvider,
+    private autoPv: AutocompleteDataProvider) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad KeywordPage');
 
-    var dataPromise = this.storage.get('member_id');
+    
+    // var dataPromise = this.storage.get('member_id');
 
-    dataPromise.then(data => {
-      if(data){
-        this.storage.get('tokenid').then( dataToken =>{
-          this.loginInfo.user_id = data + '님 환영합니다.';
-          this.loginInfo.token_id = dataToken;
-        });
-      } else {
-        this.loginInfo.user_id = '게스트입니다.';
-      }
-    })
+    // dataPromise.then(data => {
+    //   if(data){
+    //     this.storage.get('tokenid').then( dataToken =>{
+    //       this.loginInfo.user_id = data + '님 환영합니다.';
+    //       this.loginInfo.token_id = dataToken;
+    //     });
+    //   } else {
+    //     this.loginInfo.user_id = '게스트입니다.';
+    //   }
+    // });
   } //ionViewDidLoad END
 
+  onInput(ev){
+    let searchKeyword = ev.target.value;
+    if (searchKeyword){
+      this.autoPv.autocomplete(searchKeyword).then(data => {
+        this.searchResult = data;
+      });
+    } //if END
+  }
+
   searchKeyword(){
-    let keyword = this.myInput['keyword'];
+    let keyword = this.myInput['keyword'].trim();
     
     if (keyword === undefined || keyword == ''){
       alert('keyword를 입력해주세요');
